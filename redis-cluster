@@ -5,13 +5,87 @@ redis-cluster要求必须有三个以上的主节点
 我们在每台服务器上再多开一个redis实例，组成3主3从的cluster结构
 
 安装环境：
-ubuntu
+ubuntu	
 debian
 redhat
-
 
 需要的package：
 redis-3.0.1.tar.gz
 redis-2.10.3.tar.gz
 redis-py-cluster-unstable.zip(Python程序调用redis-cluster入口)
+
+操作：
+1. 新建目录，上传packages 
+mkdir redis
+scp /home/redis目录下
+
+2. redis解压，编译
+cd /home/redis
+tar -xzvf redis-3.0.1.tar.gz
+cd redis-3.0.1
+make
+make install
+
+3. 每台服务器上开启2个实例，故新建文件并配置redis.conf文件
+mkdir 6379
+mkdir 6380
+
+修改配置文件
+vim redis.conf
+port 6379
+daemonize yes
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+
+将配置文件复制到文件夹6379和6380中，注意复制到6380文件夹时，将port修改为6380
+cp redis.conf ./6379
+cp redis.conf ./6380
+
+其他2台服务器上同样操作
+
+4. 启动3台服务器上的6个redis实例
+cd /home/redis/redis-3.0.1/6379
+../src/redis-server ./redis.conf
+
+cd /home/redis/redis-3.0.1/6380
+../src/redis-server ./redis.conf
+
+5. 创建集群
+由于ruby和redis的接口没衔接，需要用gem安装
+gem install redis
+如果缺少gem，sudo apt-get install gem(联网状况)
+
+备注：
+离线安装需要额外的package：
+ruby-2.2.2.tar.gz
+rubygems-2.4.6.tgz
+
+先解压ruby，并安装
+再用ruby安装rubygems
+
+
+cd /home/redis/redis-3.0.1/src
+./redis-trib.rb  create --replicas 1 ***.***.***.91:6379  ***.***.***.91:6380  ***.***.***.92:6379  ***.***.***.92:6380  ***.***.***.93:6379  ***.***.***.93:6380
+
+中途输入yes
+
+一路……
+
+[ok] all 16384 slots covered
+至此，集群搭建完毕
+
+client 登录：src/redis-cli -c -h ***.***.***.91 -p 6379
+
+6. redis-py和redis-py-cluster-unstable安装包
+tar -xzvf redis-2.10.3.tar.gz
+cd redis-2.10.3
+python setup.py install
+
+cd redis-py-cluster-unstable
+python setup.py install
+
+7.tips
+
 
