@@ -1,4 +1,4 @@
-redis-cluster配置和部署
+#redis-cluster配置和部署
 
 目前在91、92、93上部署redis-cluster
 redis-cluster要求必须有三个以上的主节点
