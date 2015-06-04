@@ -1,3 +1,17 @@
 redis-cluster配置和部署
 
-目前在91、92、93上部署redis-cluster，由于redis-cluster要求必须有三个以上的主节点，因此我们在每台服务器上再多开一个redis实例，组成3主3从的cluster结构
+目前在91、92、93上部署redis-cluster
+redis-cluster要求必须有三个以上的主节点
+我们在每台服务器上再多开一个redis实例，组成3主3从的cluster结构
+
+安装环境：
+ubuntu
+debian
+redhat
+
+
+需要的package：
+redis-3.0.1.tar.gz
+redis-2.10.3.tar.gz
+redis-py-cluster-unstable.zip(Python程序调用redis-cluster入口)
+
