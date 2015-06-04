@@ -63,7 +63,15 @@ ruby-2.2.2.tar.gz
 rubygems-2.4.6.tgz
 
 先解压ruby，并安装
+tar -xvzf ruby-2.2.2.tar.gz
+cd ruby-2.2.2
+make 
+make install
+
 再用ruby安装rubygems
+tar -xvzf rubygems-2.4.6.tgz
+cd rubygems-2.4.6
+ruby setup.rb
 
 
 cd /home/redis/redis-3.0.1/src
@@ -87,5 +95,25 @@ cd redis-py-cluster-unstable
 python setup.py install
 
 7.tips
+7.1 启动redis-cluster
+import redis
+from rediscluster import RedisCluster
+startup_nodes = [{"host": "***.***.***.91", "port": "6379"}]
+rc = RedisCluster(startup_nodes=startup_nodes)
+rc.set("foo", "bar")
+rc.get("foo")
 
+7.2 redis-cluster不能选择database,即只有默认的database 0
+清空数据库
+rc.flushall()
+似乎连接slave nodes不能清空完全数据，尽力将startup_nodes设为master nodes
+ps:可能存在清空不完全的情况，可以循环清空~~~（low...）
 
+7.3 查看cluster
+cluster info
+cluster nodes
+
+fail:集群fail的节点
+pfail：被标记为fail的节点，因连接超时而被标记
+修复集群
+src/redis-trib.rb fix ***.***.***.91:6379
