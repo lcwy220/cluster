@@ -55,7 +55,7 @@ cd /home/redis/redis-3.0.1/6380
 5. 创建集群
 由于ruby和redis的接口没衔接，需要用gem安装
 gem install redis
-如果缺少gem，sudo apt-get install gem(联网状况)
+如果缺少gem，sudo apt-get install rubygems(联网状况)
 
 备注：
 离线安装需要额外的package：
