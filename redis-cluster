@@ -117,3 +117,10 @@ fail:集群fail的节点
 pfail：被标记为fail的节点，因连接超时而被标记
 修复集群
 src/redis-trib.rb fix ***.***.***.91:6379
+
+
+8.error排查和尝试解决方案
+8.1 redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. 
+Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
+
+解决方案：config set stop-writes-on-bgsave-error no
