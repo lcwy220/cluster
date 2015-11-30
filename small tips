@@ -1,0 +1,10 @@
+python setup.py install 来安装python包
+
+卸载这种安装包时，只能手动删除安装的文件
+
+可以这么做：
+
+python setup.py install --record files.txt 记录安装后文件的路径
+cat files.txt | xargs rm -rf  删除这些文件
+
+ok！
